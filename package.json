@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxtjs/google-fonts": "^3.0.0-0",
+    "@nuxtjs/tailwindcss": "^5.3.3",
+    "nuxt": "3.0.0-rc.11"
+  },
+  "dependencies": {
+    "@fancyapps/ui": "^4.0.31",
+    "@pinia/nuxt": "^0.4.2",
+    "gsap": "npm:@gsap/shockingly",
+    "pinia": "^2.0.22"
+  }
+}
