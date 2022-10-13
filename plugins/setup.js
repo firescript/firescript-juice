@@ -60,23 +60,13 @@ export default defineNuxtPlugin(nuxtApp => {
             }
         }, 100);
 
-
     }
 
     const EverythingsLoaded = (setupComplete) => {
 
-        const ss = ScrollSmoother.create({
-            smooth: 2,
-            normalizeScroll: true,
-            effects: true,
-            ScrollTrigger: {
-                markers: false
-            }
-        });
+        const ss = SetupScrollSmoother();
 
         SetupFancyBox(ss);
-
-        ss.scrollTo(0);
 
         appStore.isLoading = false;
 
@@ -172,6 +162,19 @@ export default defineNuxtPlugin(nuxtApp => {
         }
 
 
+    }
+
+    const SetupScrollSmoother = () => {
+        const ss = ScrollSmoother.create({
+            smooth: 2,
+            normalizeScroll: true,
+            effects: true,
+            ScrollTrigger: {
+                markers: false
+            }
+        });
+        ss.scrollTo(0);
+        return ss;
     }
 
     const SetupFancyBox = (scrollSmoother) => {
