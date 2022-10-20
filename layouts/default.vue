@@ -12,6 +12,9 @@
 </template>
 
 <script setup>
+
+    const { $SetupScrollSmoother } = useNuxtApp()
+
     useHead({
         title: 'Sintered Stone Co | Hamilton\'s Leading Sintered Stone Provider',
         // or, instead:
@@ -22,9 +25,14 @@
             { name: 'description', content: 'Sintered Stone Co | Hamilton\'s Leading Sintered Stone Provider' }
         ],
         bodyAttrs: {
-            class: 'bg-sintered-charcoal'
+            class: 'bg-white'
         }
     })
+
+    onMounted(() => {
+        console.log('Layout Mounted');
+    });
+
 </script>
 
 <style>

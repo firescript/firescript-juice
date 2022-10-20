@@ -11,16 +11,5 @@ export default defineNuxtConfig({
             Inter: [400, 600],
         }
     },
-    gsap: {
-        extraPlugins: {
-            scrollTo: true,
-            scrollTrigger: true,
-            observer: true,
-        },
-        clubPlugins: {
-            scrollSmoother: true,
-            gsDevTools: false
-        }
-    },
     tailwindcss: {}
 })

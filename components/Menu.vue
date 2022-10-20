@@ -3,9 +3,9 @@
         enter-to-class="opacity-100 	 " leave-active-class="transition-all transform-gpu duration-500  "
         leave-from-class="opacity-100 " leave-to-class=" opacity-0 ease-in">
         <div v-if="appStore.isMenuOpen"
-            class="fixed z-50 w-screen h-screen top-0 left-0 bg-sintered-charcoal bg-opacity-100  flex items-center justify-center px-10 ">
+            class="fixed z-50 w-screen h-screen top-0 left-0 bg-white bg-opacity-100  flex items-center justify-center px-10 ">
             <div class="absolute top-0 pt-7 max-w-6xl flex text-right w-full">
-                <div class="ml-auto flex space-x-4 text-[12px] items-center   text-white transition-all duration-300 text-sm z-20  cursor-pointer "
+                <div class="ml-auto flex space-x-4 text-[12px] items-center   text-gray-800 transition-all duration-300 text-sm z-20  cursor-pointer "
                     @click="closeMenu()">
                     <span class="text-[12px]">Close</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -16,23 +16,14 @@
                 </div>
             </div>
             <div
-                class="flex flex-col space-y-0 text-white items-center md:items-end text-right z-20 max-w-2xl mx-auto w-full px-0 py-20">
+                class="flex flex-col space-y-0 text-gray-800 items-center md:items-end text-right z-20 max-w-2xl mx-auto w-full px-0 py-20">
                 <NuxtLink to="/"
                     :class="(isSameRoute('/') ? 'opacity-40 cursor-default' : ' opacity-60 hover:opacity-100') + ' ' + animationClasses"
-                    class="text-4xl lg:text-6xl font-inter uppercase transform transition-all">Home</NuxtLink>
-                <NuxtLink to="/collection"
-                    :class="(isSameRoute('/collection') ? 'opacity-40 cursor-default' : ' opacity-60 hover:opacity-100') + ' ' + animationClasses"
-                    class="text-4xl lg:text-6xl  uppercase transform transition-all duration-300  overflow-hidden" >Collection</NuxtLink>
-                <NuxtLink to="/how-its-made"
-                    :class="(isSameRoute('/how-its-made') ? 'opacity-40 cursor-default' : ' opacity-60 hover:opacity-100') + ' ' + animationClasses"
-                    class="text-4xl lg:text-6xl font-display uppercase transform transition-all duration-300 overflow-hidden " >How It's Made</NuxtLink>
-                <NuxtLink to="/company"
-                    :class="(isSameRoute('/company') ? 'opacity-40 cursor-default' : ' opacity-60 hover:opacity-100') + ' ' + animationClasses"
-                    class="text-4xl lg:text-6xl font-display uppercase transform transition-all duration-300 overflow-hidden" >Company</NuxtLink>
-                <NuxtLink to="/order"
-                    :class="(isSameRoute('/order') ? 'opacity-40 cursor-default' : ' opacity-60 hover:opacity-100') + ' ' + animationClasses"
-                    class="text-4xl lg:text-6xl font-display uppercase transform transition-all duration-300  overflow-hidden" >Order Now
-                </NuxtLink>
+                    class="text-4xl lg:text-6xl font-inter tracking-tighter transform transition-all">Home</NuxtLink>
+                <NuxtLink to="/install"
+                    :class="(isSameRoute('/install') ? 'opacity-40 cursor-default' : ' opacity-60 hover:opacity-100') + ' ' + animationClasses"
+                    class="text-4xl lg:text-6xl  tracking-tighter transform transition-all duration-300  overflow-hidden" >Install Juice</NuxtLink>
+
             </div>
         </div>
     </transition>
