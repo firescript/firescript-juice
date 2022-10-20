@@ -25,8 +25,6 @@ onMounted(async () => {
 
     appStore.isPageMounted = true;
 
-    await nextTick();
-
     $PageSetup(() => {
         console.log('Page Setup');
     });

@@ -62,31 +62,23 @@ export default defineNuxtPlugin(nuxtApp => {
             imagesLoaded = true;
         });
 
-        var loadInterval = setInterval(() => {
+        var loadInterval = setInterval(async () => {
             if (imagesLoaded && videosLoaded && audiosLoaded) {
-                console.log('All assets loaded');
-                EverythingsLoaded(setupComplete);
+                await EverythingsLoaded(setupComplete)
+
                 clearInterval(loadInterval);
             }
         }, 100);
 
     }
 
-    const EverythingsLoaded = (setupComplete) => {
-        if(process.client){
-
-            console.log(process.client, 'client process');
-
-            var ss = SetupScrollSmoother();
-
+    const EverythingsLoaded = async (setupComplete) => {
+        setTimeout(async () => {
+            var ss = await SetupScrollSmoother();
             SetupFancyBox(ss);
-
             appStore.isLoading = false;
-
             setupComplete();
-        }else{
-            console.log('not client process');
-        }
+        }, 500);
 
     }
 
@@ -180,25 +172,24 @@ export default defineNuxtPlugin(nuxtApp => {
 
     }
 
-    const SetupScrollSmoother = () => {
-        var ss = ScrollSmoother.get();
+    const SetupScrollSmoother = async () => {
+        var ss = await ScrollSmoother.get();
         window.ss = ss;
         if(ss){
-            console.log('ScrollSmoother already exists');
-            ss.scrollTo(0);
-            return ss;
-        }else{
-            ss = ScrollSmoother.create({
-                smooth: 2,
-                normalizeScroll: true,
-                effects: true,
-                ScrollTrigger:{
-                    markers: false,
-                }
-            });
-            ss.scrollTo(0);
-            return ss;
+            console.log('ScrollSmoother already exists, lets kill it');
+            await ss.kill();
+            console.log('ScrollSmoother killed');
         }
+        ss = await ScrollSmoother.create({
+            smooth: 2,
+            normalizeScroll: true,
+            effects: true,
+            ScrollTrigger:{
+                markers: false,
+            }
+        });
+        ss.scrollTo(0);
+        return ss;
     }
 
     const SetupFancyBox = (scrollSmoother) => {

@@ -13,16 +13,14 @@
 
 <script setup>
 
-    const { $SetupScrollSmoother } = useNuxtApp()
-
     useHead({
-        title: 'Sintered Stone Co | Hamilton\'s Leading Sintered Stone Provider',
+        title: 'Nuxt 3 + Tailwind + GSAP + Scroll Smoother',
         // or, instead:
         // titleTemplate: (title) => `My App - ${title}`,
         viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
         charset: 'utf-8',
         meta: [
-            { name: 'description', content: 'Sintered Stone Co | Hamilton\'s Leading Sintered Stone Provider' }
+            { name: 'description', content: 'Nuxt 3 + Tailwind + GSAP + Scroll Smoother' }
         ],
         bodyAttrs: {
             class: 'bg-white'
@@ -30,7 +28,7 @@
     })
 
     onMounted(() => {
-        console.log('Layout Mounted');
+
     });
 
 </script>
