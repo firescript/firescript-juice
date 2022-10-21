@@ -9,8 +9,14 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@awaitbox/document-ready": "^2.0.1",
+    "@fancyapps/ui": "^4.0.31",
+    "@nuxtjs/composition-api": "^0.33.1",
+    "@pinia/nuxt": "0.2.1",
     "core-js": "^3.15.1",
-    "nuxt": "^2.15.7"
+    "nuxt": "^2.15.7",
+    "pinia": "^2.0.23",
+    "gsap": "npm:@gsap/shockingly"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^4.2.0",

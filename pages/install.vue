@@ -12,45 +12,21 @@
         </div>
     </div>
 </template>
+<script>
 
-<script setup>
+import { SetupMixins } from '~/mixins/setup'
 
-import { useAppStore } from '@/stores/appStore';
-import { nextTick } from 'vue'
+export default {
+    mixins: [SetupMixins],
+    mounted() {
+        this.PageSetup(() => {
 
-// Greensock
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
-import { Observer } from "gsap/Observer";
+            this.SetupScrollSmoother().then((ss) => {
+                console.log('Scroll Smoother Ready')
+            });
 
-import { ref, onMounted } from 'vue'
-
-const h1 = ref();
-const p = ref();
-
-const { $PageSetup, $PageExit, $SetupScrollSmoother } = useNuxtApp()
-const appStore = useAppStore();
-
-if (process.client) {
-    gsap.registerPlugin(ScrollSmoother);
+        });
+    },
 }
 
-onMounted(async () => {
-    console.log('mounted')
-    appStore.isPageMounted = true;
-
-    $PageSetup(async () => {
-        console.log('page setup')
-        var ss = await $SetupScrollSmoother();
-        // ss.effects(h1.value, { speed: .9 });
-        // ss.effects(p.value, { speed: .5 });
-        // window.dispatchEvent(new Event('resize'));
-    });
-
-});
-
-onBeforeUnmount(() => {
-    $PageExit();
-});
 </script>

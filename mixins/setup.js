@@ -1,3 +1,4 @@
+
 // Stores
 import { useAppStore } from '@/stores/appStore';
 
@@ -14,210 +15,184 @@ import { nextTick } from 'vue'
 import documentReady from '@awaitbox/document-ready'
 
 
-export default defineNuxtPlugin(nuxtApp => {
+export const SetupMixins = {
+    methods:{
 
-    if (process.client) {
-        gsap.registerPlugin(ScrollTrigger, ScrollSmoother, Observer);
-    }
+        ResetScroll(){
 
-    const appStore = useAppStore();
+            var st = ScrollTrigger.getAll();
+            var o = Observer.getAll();
 
-    const PageExit = () => {
-        appStore.isPageMounted = false;
-        appStore.isMenuOpen = false;
-        ResetScroll();
-        // var ss = ScrollSmoother.get();
-        // ss.paused(true);
-    }
-
-    const ResetScroll = () => {
-
-        var st = ScrollTrigger.getAll();
-        var o = Observer.getAll();
-
-        for (var i = 0; i < st.length; i++) {
-            st[i].refresh();
-        }
-
-        for (var i = 0; i < o.length; i++) {
-            o[i].kill();
-        }
-    }
-
-    const PageSetup = async (setupComplete) => {
-
-        await nextTick();
-
-        appStore.isLoading = true;
-
-        var imagesLoaded = false;
-        var videosLoaded = true;
-        var audiosLoaded = true;
-
-
-        const images = GetAllImagesOnPage();
-        // const audios = GetAllAudiosOnPage();
-        // const videos = GetAllVideosOnPage();
-
-        PreloadAssets(images, 'images', () => {
-            imagesLoaded = true;
-        });
-
-        var loadInterval = setInterval(async () => {
-            if (imagesLoaded && videosLoaded && audiosLoaded) {
-                EverythingsLoaded(setupComplete)
-                clearInterval(loadInterval);
+            for (var i = 0; i < st.length; i++) {
+                st[i].refresh();
             }
-        }, 100);
 
-    }
+            for (var i = 0; i < o.length; i++) {
+                o[i].kill();
+            }
+        },
 
-    const EverythingsLoaded = (setupComplete) => {
+        PageSetup(setupComplete) {
 
-        // setTimeout(() => {
-            // var ss = SetupScrollSmoother();
-            // SetupFancyBox(ss);
-            appStore.isLoading = false;
-            setupComplete();
-        // }, 500);
-    }
+            // await nextTick();
 
-    const GetAllImagesOnPage = () => {
-        var images = document.images;
-        var srcList = [];
-        for(var i = 0; i < images.length; i++) {
-            srcList.push(images[i].src);
-        }
-        return srcList;
-    }
+            appStore.isLoading = true;
 
-    const GetAllAudiosOnPage = () => {
-        var audios = document.getElementsByTagName('audio');
-        var srcList = [];
-        for(var i = 0; i < audios.length; i++) {
-            srcList.push(audios[i]);
-        }
-        return srcList;
-    }
+            var imagesLoaded = false;
+            var videosLoaded = true;
+            var audiosLoaded = true;
 
-    const GetAllVideosOnPage = () => {
-        var videos = document.getElementsByTagName('video');
-        var srcList = [];
-        for(var i = 0; i < videos.length; i++) {
-            srcList.push(videos[i]);
-        }
-        return srcList;
-    }
 
-    const PreloadAssets = (urls, assetType, allAssetsLoadedCallback) => {
+            const images = GetAllImagesOnPage();
+            // const audios = GetAllAudiosOnPage();
+            // const videos = GetAllVideosOnPage();
 
-        // return new Promise(resolve => {
-        // resolve('resolved');
-        // });
+            PreloadAssets(images, 'images', () => {
+                imagesLoaded = true;
+            });
 
-        var loadedCounter = 0;
-        var toBeLoadedNumber = urls.length;
+            var loadInterval = setInterval(async () => {
+                if (imagesLoaded && videosLoaded && audiosLoaded) {
+                    EverythingsLoaded(setupComplete)
+                    clearInterval(loadInterval);
+                }
+            }, 100);
 
-        if(toBeLoadedNumber > 0) {
-            urls.forEach((url) => {
-                preloadAsset(url, () =>{
-                    loadedCounter++;
-                    checkIfAllAssetsLoaded();
-                }, () => {
-                    console.error('Asset failed to load: ' + url);
-                    loadedCounter++;
-                    checkIfAllAssetsLoaded();
+        },
+
+        EverythingsLoaded(setupComplete){
+
+            // setTimeout(() => {
+                // var ss = SetupScrollSmoother();
+                // SetupFancyBox(ss);
+                appStore.isLoading = false;
+                setupComplete();
+            // }, 500);
+        },
+
+        GetAllImagesOnPage(){
+            var images = document.images;
+            var srcList = [];
+            for(var i = 0; i < images.length; i++) {
+                srcList.push(images[i].src);
+            }
+            return srcList;
+        },
+
+        GetAllAudiosOnPage(){
+            var audios = document.getElementsByTagName('audio');
+            var srcList = [];
+            for(var i = 0; i < audios.length; i++) {
+                srcList.push(audios[i]);
+            }
+            return srcList;
+        },
+
+        GetAllVideosOnPage(){
+            var videos = document.getElementsByTagName('video');
+            var srcList = [];
+            for(var i = 0; i < videos.length; i++) {
+                srcList.push(videos[i]);
+            }
+            return srcList;
+        },
+
+        PreloadAssets(urls, assetType, allAssetsLoadedCallback){
+
+            // return new Promise(resolve => {
+            // resolve('resolved');
+            // });
+
+            var loadedCounter = 0;
+            var toBeLoadedNumber = urls.length;
+
+            if(toBeLoadedNumber > 0) {
+                urls.forEach((url) => {
+                    preloadAsset(url, () =>{
+                        loadedCounter++;
+                        checkIfAllAssetsLoaded();
+                    }, () => {
+                        console.error('Asset failed to load: ' + url);
+                        loadedCounter++;
+                        checkIfAllAssetsLoaded();
+                    });
                 });
-            });
-        }else{
-            checkIfAllAssetsLoaded();
-        }
-
-        function checkIfAllAssetsLoaded(){
-            if(loadedCounter == toBeLoadedNumber){
-                console.info('Number of loaded ' + assetType + ': ' + loadedCounter);
-                allAssetsLoadedCallback();
+            }else{
+                checkIfAllAssetsLoaded();
             }
-        }
 
-        function preloadAsset(url, anAssetLoadedCallback, anAssetErrorCallback) {
-            if(assetType == 'images') {
-                preloadImage(url, anAssetLoadedCallback, anAssetErrorCallback);
-            }else if(assetType == 'videos') {
-                preloadVideo(url, anAssetLoadedCallback, anAssetErrorCallback);
-            }else if(assetType == 'audio') {
-                preloadAudio(url, anAssetLoadedCallback, anAssetErrorCallback);
-            }
-        }
-
-        function preloadImage(url, anAssetLoadedCallback, anAssetErrorCallback) {
-            var img = new Image();
-            img.src = url;
-            img.onload = anAssetLoadedCallback;
-            img.onerror = anAssetErrorCallback;
-        }
-
-        function preloadVideo(el, anAssetLoadedCallback, anAssetErrorCallback) {
-            var video = el;
-            video.oncanplay = anAssetLoadedCallback;
-            video.onerror = anAssetErrorCallback;
-        }
-
-        function preloadAudio(el, anAssetLoadedCallback, anAssetErrorCallback) {
-            var audio = el;
-            audio.oncanplay = anAssetLoadedCallback;
-            audio.onerror = anAssetErrorCallback;
-        }
-
-
-    }
-
-    const SetupScrollSmoother = () => {
-
-        return new Promise(function(resolve, reject) {
-            var ss = ScrollSmoother.create({
-                smooth: 2,
-                normalizeScroll: true,
-                effects: true,
-                ScrollTrigger:{
-                    markers: false,
-                }
-            });
-            ss.scrollTo(0);
-            resolve(ss);
-        })
-
-    }
-
-
-
-    const SetupFancyBox = (scrollSmoother) => {
-
-        Fancybox.bind("[data-fancybox]",{
-            autoFocus: false,
-            on:{
-                init: () => {
-                    scrollSmoother.paused(true);
-                },
-                closing: () => {
-                    scrollSmoother.paused(false);
+            function checkIfAllAssetsLoaded(){
+                if(loadedCounter == toBeLoadedNumber){
+                    console.info('Number of loaded ' + assetType + ': ' + loadedCounter);
+                    allAssetsLoadedCallback();
                 }
             }
-        });
 
-    }
+            function preloadAsset(url, anAssetLoadedCallback, anAssetErrorCallback) {
+                if(assetType == 'images') {
+                    preloadImage(url, anAssetLoadedCallback, anAssetErrorCallback);
+                }else if(assetType == 'videos') {
+                    preloadVideo(url, anAssetLoadedCallback, anAssetErrorCallback);
+                }else if(assetType == 'audio') {
+                    preloadAudio(url, anAssetLoadedCallback, anAssetErrorCallback);
+                }
+            }
 
-    return {
-        provide: {
-            PageExit: PageExit,
-            PageSetup: PageSetup,
-            SetupScrollSmoother: SetupScrollSmoother,
-            ResetScroll: ResetScroll,
-            gsap: gsap,
-            ScrollTrigger: ScrollTrigger,
-            ScrollSmoother: ScrollSmoother,
-            Observer: Observer
+            function preloadImage(url, anAssetLoadedCallback, anAssetErrorCallback) {
+                var img = new Image();
+                img.src = url;
+                img.onload = anAssetLoadedCallback;
+                img.onerror = anAssetErrorCallback;
+            }
+
+            function preloadVideo(el, anAssetLoadedCallback, anAssetErrorCallback) {
+                var video = el;
+                video.oncanplay = anAssetLoadedCallback;
+                video.onerror = anAssetErrorCallback;
+            }
+
+            function preloadAudio(el, anAssetLoadedCallback, anAssetErrorCallback) {
+                var audio = el;
+                audio.oncanplay = anAssetLoadedCallback;
+                audio.onerror = anAssetErrorCallback;
+            }
+
+
+        },
+
+        SetupScrollSmoother(){
+
+            return new Promise(function(resolve, reject) {
+                var ss = ScrollSmoother.create({
+                    smooth: 2,
+                    normalizeScroll: true,
+                    effects: true,
+                    ScrollTrigger:{
+                        markers: false,
+                    }
+                });
+                ss.scrollTo(0);
+                resolve(ss);
+            })
+
+        },
+
+        SetupFancyBox(scrollSmoother){
+
+            Fancybox.bind("[data-fancybox]",{
+                autoFocus: false,
+                on:{
+                    init: () => {
+                        scrollSmoother.paused(true);
+                    },
+                    closing: () => {
+                        scrollSmoother.paused(false);
+                    }
+                }
+            });
+
         }
-    }
 
-})
+    }
+}
+
