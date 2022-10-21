@@ -11,6 +11,8 @@ import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { Observer } from "gsap/Observer";
 
 import { nextTick } from 'vue'
+import documentReady from '@awaitbox/document-ready'
+
 
 export default defineNuxtPlugin(nuxtApp => {
 
@@ -23,8 +25,9 @@ export default defineNuxtPlugin(nuxtApp => {
     const PageExit = () => {
         appStore.isPageMounted = false;
         appStore.isMenuOpen = false;
-        var ss = ScrollSmoother.get();
-        ss.paused(true);
+        ResetScroll();
+        // var ss = ScrollSmoother.get();
+        // ss.paused(true);
     }
 
     const ResetScroll = () => {
@@ -33,7 +36,7 @@ export default defineNuxtPlugin(nuxtApp => {
         var o = Observer.getAll();
 
         for (var i = 0; i < st.length; i++) {
-            st[i].kill();
+            st[i].refresh();
         }
 
         for (var i = 0; i < o.length; i++) {
@@ -46,8 +49,6 @@ export default defineNuxtPlugin(nuxtApp => {
         await nextTick();
 
         appStore.isLoading = true;
-
-        ResetScroll();
 
         var imagesLoaded = false;
         var videosLoaded = true;
@@ -64,22 +65,21 @@ export default defineNuxtPlugin(nuxtApp => {
 
         var loadInterval = setInterval(async () => {
             if (imagesLoaded && videosLoaded && audiosLoaded) {
-                await EverythingsLoaded(setupComplete)
-
+                EverythingsLoaded(setupComplete)
                 clearInterval(loadInterval);
             }
         }, 100);
 
     }
 
-    const EverythingsLoaded = async (setupComplete) => {
-        setTimeout(async () => {
-            var ss = await SetupScrollSmoother();
-            SetupFancyBox(ss);
+    const EverythingsLoaded = (setupComplete) => {
+
+        // setTimeout(() => {
+            // var ss = SetupScrollSmoother();
+            // SetupFancyBox(ss);
             appStore.isLoading = false;
             setupComplete();
-        }, 500);
-
+        // }, 500);
     }
 
     const GetAllImagesOnPage = () => {
@@ -172,25 +172,24 @@ export default defineNuxtPlugin(nuxtApp => {
 
     }
 
-    const SetupScrollSmoother = async () => {
-        var ss = await ScrollSmoother.get();
-        window.ss = ss;
-        if(ss){
-            console.log('ScrollSmoother already exists, lets kill it');
-            await ss.kill();
-            console.log('ScrollSmoother killed');
-        }
-        ss = await ScrollSmoother.create({
-            smooth: 2,
-            normalizeScroll: true,
-            effects: true,
-            ScrollTrigger:{
-                markers: false,
-            }
-        });
-        ss.scrollTo(0);
-        return ss;
+    const SetupScrollSmoother = () => {
+
+        return new Promise(function(resolve, reject) {
+            var ss = ScrollSmoother.create({
+                smooth: 2,
+                normalizeScroll: true,
+                effects: true,
+                ScrollTrigger:{
+                    markers: false,
+                }
+            });
+            ss.scrollTo(0);
+            resolve(ss);
+        })
+
     }
+
+
 
     const SetupFancyBox = (scrollSmoother) => {
 
@@ -213,6 +212,7 @@ export default defineNuxtPlugin(nuxtApp => {
             PageExit: PageExit,
             PageSetup: PageSetup,
             SetupScrollSmoother: SetupScrollSmoother,
+            ResetScroll: ResetScroll,
             gsap: gsap,
             ScrollTrigger: ScrollTrigger,
             ScrollSmoother: ScrollSmoother,
