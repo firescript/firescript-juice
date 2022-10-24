@@ -18,7 +18,6 @@
 
 export default {
     mounted() {
-
         this.$PageSetup(() => {
 
 
@@ -26,7 +25,7 @@ export default {
         });
     },
     beforeDestroy() {
-        this.$store.commit('setLoading', true);
+        this.$PageExit();
     }
 }
 

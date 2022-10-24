@@ -8,11 +8,7 @@
         </div>
     </nav>
 </template>
-<script setup>
+<script>
 
-import MenuButton from './MenuButton.vue';
 
-const openMenu = () => {
-    // appStore.isMenuOpen = true;
-}
 </script>

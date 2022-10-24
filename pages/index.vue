@@ -20,8 +20,12 @@
 <script>
 
 export default{
+    computed: {
+        isLoading() {
+            return this.$store.state.isLoading
+        }
+    },
     mounted(){
-
         this.$PageSetup(() => {
 
 
@@ -29,7 +33,7 @@ export default{
         });
     },
     beforeDestroy(){
-        this.$store.commit('setLoading', true);
+        this.$PageExit();
     }
 }
 

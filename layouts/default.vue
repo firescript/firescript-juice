@@ -1,7 +1,11 @@
 <template>
-    <div class="antialiased overflow-x-hidden">
+    <div class="antialiased ">
+
+        <Menu></Menu>
 
         <Loader></Loader>
+
+        <Header></Header>
 
         <div id="smooth-wrapper">
             <div id="smooth-content" >
@@ -16,6 +20,7 @@
 </template>
 
 <script>
+
 
 
 export default {

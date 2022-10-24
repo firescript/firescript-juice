@@ -14,9 +14,11 @@ import { Observer } from "gsap/Observer";
 
 export default ({ app, store }, inject) => {
 
-    const ResetScroll = () =>{
-
+    if(process.client) {
         gsap.registerPlugin(ScrollTrigger, ScrollSmoother, Observer);
+    }
+
+    const ResetScroll = () =>{
 
         var st = ScrollTrigger.getAll();
         var o = Observer.getAll();
@@ -30,11 +32,16 @@ export default ({ app, store }, inject) => {
         }
     }
 
+    const PageExit = () =>{
+        store.commit('setLoading', true);
+    }
+
     const PageSetup = (setupComplete) => {
 
         // const appStore = useAppStore();
 
         store.commit('setLoading', true);
+        store.commit('setMenuOpen', false);
 
         var imagesLoaded = false;
         var videosLoaded = true;
@@ -162,20 +169,16 @@ export default ({ app, store }, inject) => {
 
     const SetupScrollSmoother = () => {
 
-        gsap.registerPlugin(ScrollTrigger, ScrollSmoother, Observer);
-
-        return new Promise(function(resolve, reject) {
-            var ss = ScrollSmoother.create({
-                smooth: 2,
-                normalizeScroll: true,
-                effects: true,
-                ScrollTrigger:{
-                    markers: false,
-                }
-            });
-            ss.scrollTo(0);
-            resolve(ss);
-        })
+        var ss = ScrollSmoother.create({
+            smooth: 2,
+            normalizeScroll: true,
+            effects: true,
+            ScrollTrigger:{
+                markers: false,
+            }
+        });
+        ss.scrollTo(0);
+        return ss;
 
     }
 
@@ -196,5 +199,6 @@ export default ({ app, store }, inject) => {
     }
 
     inject('PageSetup', PageSetup)
+    inject('PageExit', PageExit)
 }
 
