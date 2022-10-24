@@ -29,69 +29,69 @@
     </transition>
 </template>
 
-<script setup>
+<script >
 
-    // Stores
-    import { useAppStore } from '@/stores/appStore';
+    // // Stores
+    // import { useAppStore } from '@/stores/appStore';
 
-    // Plugins
-    const { $ScrollSmoother } = useNuxtApp()
+    // // Plugins
+    // const { $ScrollSmoother } = useNuxtApp()
 
-    // Properties
-    const appStore = useAppStore();
-    const currentRoute = useRoute()
+    // // Properties
+    // const appStore = useAppStore();
+    // const currentRoute = useRoute()
 
-    // Methods
-    const closeMenu = () => {
-        appStore.isMenuOpen = false;
-    }
-    const isSameRoute = (route) => {
-        return route === currentRoute.path
-    }
+    // // Methods
+    // const closeMenu = () => {
+    //     appStore.isMenuOpen = false;
+    // }
+    // const isSameRoute = (route) => {
+    //     return route === currentRoute.path
+    // }
 
-    var animationClasses = "opacity-0 translate-y-0"
+    // var animationClasses = "opacity-0 translate-y-0"
 
-    onMounted(() => {
-        document.onkeydown = (evt) => {
-            evt = evt || window.event;
-            var isEscape = false;
-            if ("key" in evt) {
-                isEscape = (evt.key === "Escape" || evt.key === "Esc");
-            } else {
-                isEscape = (evt.keyCode === 27);
-            }
-            if (isEscape) {
-                closeMenu();
-            }
-        };
-    })
-    watch(
-        () => currentRoute,
-        (newRoute) => {
-            console.log(newRoute, currentRoute.path)
-            if (newRoute.path != currentRoute.path) {
-                setTimeout(() => {
-                    this.appStore.isMenuOpen = false;
-                }, 250)
-            }
-        }
-    )
-    watch(
-        () => appStore.isMenuOpen,
-        async newVal => {
-            var ss = $ScrollSmoother.get();
-            if (newVal) {
-                animationClasses = "translate-y-0 opacity-100"
-                if (ss) {
-                    ss.paused(true);
-                }
-            } else {
-                animationClasses = "translate-y-10 opacity-0"
-                if (ss) {
-                    ss.paused(false);
-                }
-            }
-        }
-    )
+    // onMounted(() => {
+    //     document.onkeydown = (evt) => {
+    //         evt = evt || window.event;
+    //         var isEscape = false;
+    //         if ("key" in evt) {
+    //             isEscape = (evt.key === "Escape" || evt.key === "Esc");
+    //         } else {
+    //             isEscape = (evt.keyCode === 27);
+    //         }
+    //         if (isEscape) {
+    //             closeMenu();
+    //         }
+    //     };
+    // })
+    // watch(
+    //     () => currentRoute,
+    //     (newRoute) => {
+    //         console.log(newRoute, currentRoute.path)
+    //         if (newRoute.path != currentRoute.path) {
+    //             setTimeout(() => {
+    //                 this.appStore.isMenuOpen = false;
+    //             }, 250)
+    //         }
+    //     }
+    // )
+    // watch(
+    //     () => appStore.isMenuOpen,
+    //     async newVal => {
+    //         var ss = $ScrollSmoother.get();
+    //         if (newVal) {
+    //             animationClasses = "translate-y-0 opacity-100"
+    //             if (ss) {
+    //                 ss.paused(true);
+    //             }
+    //         } else {
+    //             animationClasses = "translate-y-10 opacity-0"
+    //             if (ss) {
+    //                 ss.paused(false);
+    //             }
+    //         }
+    //     }
+    // )
 
 </script>

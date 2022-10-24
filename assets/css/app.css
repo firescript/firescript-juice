@@ -1,0 +1,14 @@
+@import "~/node_modules/@fancyapps/ui/dist/fancybox.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --fancybox-bg: rgba(0, 0, 0, 0.95);
+}
+
+::selection {
+    color: #fff;
+    background: #F75744;
+}

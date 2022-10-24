@@ -20,8 +20,8 @@
 
 <script setup>
 
-    import { useAppStore } from '@/stores/appStore';
-    const appStore = useAppStore();
+    // import { useAppStore } from '@/stores/appStore';
+    // const appStore = useAppStore();
 
     const openMenu = () => {
         appStore.isMenuOpen = true;

@@ -9,10 +9,10 @@
     </nav>
 </template>
 <script setup>
-import { useAppStore } from '@/stores/appStore';
+
 import MenuButton from './MenuButton.vue';
-const appStore = useAppStore();
+
 const openMenu = () => {
-    appStore.isMenuOpen = true;
+    // appStore.isMenuOpen = true;
 }
 </script>
